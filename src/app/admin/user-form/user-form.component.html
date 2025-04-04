@@ -14,8 +14,8 @@
             <mat-label>Name</mat-label>
             <input matInput formControlName="name" required>
             <mat-error *ngIf="userForm.controls.name.touched && userForm.controls.name.invalid">
-                <span *ngIf="userForm.controls.name.errors.required">This field is mandatory</span>
-                <span *ngIf="userForm.controls.name.errors.pattern">This field is invalid</span>
+                <span *ngIf="userForm.controls.name.errors.required">Name is mandatory</span>
+                <span *ngIf="userForm.controls.name.errors.pattern">Name is invalid</span>
             </mat-error>
         </mat-form-field>
             
@@ -23,8 +23,8 @@
             <mat-label>Email</mat-label>
             <input matInput formControlName="email" required>
             <mat-error *ngIf="userForm.controls.email.touched && userForm.controls.email.invalid">
-                <span *ngIf="userForm.controls.email.errors.required">This field is mandatory</span>
-                <span *ngIf="userForm.controls.email.errors.pattern">This field is invalid</span>
+                <span *ngIf="userForm.controls.email.errors.required">Email is mandatory</span>
+                <span *ngIf="userForm.controls.email.errors.pattern">Email is invalid</span>
             </mat-error>
         </mat-form-field>
 

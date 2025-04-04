@@ -10,6 +10,7 @@ import { SnackbarService } from '../../services/snackbar.service';
   standalone: false,
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
+  
 })
 export class LoginComponent implements OnInit{
   hide = true;

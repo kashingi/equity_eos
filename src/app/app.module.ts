@@ -16,6 +16,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { ConfirmationComponent } from './dialogs/confirmation/confirmation.component';
+import { UpdatesComponent } from './dialogs/updates/updates.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { TaskFormComponent } from './dialogs/task-form/task-form.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule, MatLabel } from '@angular/material/input';
 
 
 
@@ -38,6 +45,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     HeaderComponent,
     HomeComponent,
     SidebarComponent,
+    ConfirmationComponent,
+    UpdatesComponent,
+    TaskFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +59,11 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MatMenuModule,
     MatToolbarModule,
     MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatLabel,
     HttpClientModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig)
   ],

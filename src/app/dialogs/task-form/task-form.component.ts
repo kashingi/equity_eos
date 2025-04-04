@@ -1,63 +1,53 @@
-import { Component, OnInit, EventEmitter, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { GolobalConstants } from '../../shared/global-constants';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { SnackbarService } from '../../services/snackbar.service';
-
-
+import { GolobalConstants } from '../../shared/global-constants';
 
 @Component({
-  selector: 'app-user-form',
+  selector: 'app-task-form',
   standalone: false,
-  templateUrl: './user-form.component.html',
-  styleUrl: './user-form.component.scss'
+  templateUrl: './task-form.component.html',
+  styleUrl: './task-form.component.scss',
 })
-export class UserFormComponent implements OnInit {
+export class TaskFormComponent implements OnInit{
 
-  userForm: any = FormGroup;
+  taskForm: any = FormGroup;
   onAddProduct = new EventEmitter();
   onEditProduct = new EventEmitter();
   dialogAction: any = "Add";
   action: any = "Add";
   responseMessage: any;
-  roles: any = [];
 
-  constructor(
+  statuses = [
+    { name: "Pending" },
+    { name: "Completed" }
+  ]
+
+  constructor (
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
     private ngxService: NgxUiLoaderService,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    public dialogRef: MatDialogRef<UserFormComponent>,
+    public dialogRef: MatDialogRef<TaskFormComponent>,
     private snackbar: SnackbarService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.userForm = this.formBuilder.group({
-      name: [null, [Validators.required, Validators.pattern(GolobalConstants.nameRegex)]],
-      email: [null, [Validators.required, Validators.pattern(GolobalConstants.emailRegex)]],
-      role: [null, [Validators.required, Validators.pattern(GolobalConstants.nameRegex)]],
+    this.taskForm = this.formBuilder.group({
+      taskName: [null, [Validators.required, Validators.pattern(GolobalConstants.nameRegex)]],
+      invited: [null, [Validators.required]],
+      date: [null, [Validators.required]],
+      status: [null, [Validators.required, Validators.pattern(GolobalConstants.nameRegex)]]
     });
     if (this.dialogData.action === "Edit") {
       this.dialogAction = "Edit";
       this.action = "Update";
-      this.userForm.patchValue(this.dialogData.data);
+      this.taskForm.patchValue(this.dialogData.data);
     };
-    this.getUserRoles();
-  }
-
-  //Fetch users roles here
-  getUserRoles() {
-    this.userService.getRoles().subscribe(
-      (resp: any) => {
-        console.log(resp)
-        this.roles = resp;
-      },
-      (error: any) => {
-        console.log(error);
-      }
-    );
+    
   }
 
   //Implement your submit action here
@@ -71,19 +61,20 @@ export class UserFormComponent implements OnInit {
 
   add() {
     this.ngxService.start();
-    var formData = this.userForm.value;
-    var data = {
-      name: formData.name,
-      email: formData.email,
-      role: formData.role,
+    var formData = this.taskForm.value;
+    var taskData = {
+      taskName: formData.name,
+      invited: formData.email,
+      date: formData.role,
+      status: formData.status
     }
 
-    this.userService.addUser(data).subscribe(
+    this.userService.addTasks(taskData).subscribe(
       (response: any) => {
         this.dialogRef.close();
         this.ngxService.stop();
         this.onAddProduct.emit();
-        this.snackbar.success("User added successfully.", "X");
+        this.snackbar.success("Task added successfully.", "X");
       },
       (error) => {
         console.log(error);
@@ -100,19 +91,19 @@ export class UserFormComponent implements OnInit {
 
   edit() {
     var userId = this.dialogData.data.id;
-    var formData = this.userForm.value;
-    var userData = {
+    var formData = this.taskForm.value;
+    var updateData = {
       name: formData.name,
       email: formData.email,
       role: formData.role,
     }
-    console.log(userId, userData)
-    this.userService.updateUser(userId, userData).subscribe(
+    console.log(userId, updateData)
+    this.userService.updateUser(userId, updateData).subscribe(
       (response: any) => {
         this.dialogRef.close();
         this.onEditProduct.emit();
         this.responseMessage = response.Message;
-        this.snackbar.success("User updated successfully.", "X");
+        this.snackbar.success("Task updated successfully.", "X");
       }, 
       (error) => {
         console.log(error);

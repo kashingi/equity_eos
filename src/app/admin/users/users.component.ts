@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { UserFormComponent } from '../user-form/user-form.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ConfirmationComponent } from '../../dialogs/confirmation/confirmation.component';
 
 
 
@@ -43,7 +44,6 @@ export class UsersComponent implements OnInit {
     this.ngxService.start();
     this.userService.getUsers().subscribe(
       (resp: any) => {
-        console.log(resp);
         this.ngxService.stop();
         this.dataSource = new MatTableDataSource(resp);
         this.dataSource.paginator = this.paginator;
@@ -99,23 +99,30 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  //Change user status
-  onChange(status: any, id: any) {
-    this.ngxService.start();
-
-    var data = {
-      status: status.toString(),
-      id: id
+  //HAndle delete user action
+  handleDeleteAction(values: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      message: ' delete user ' + values.name,
+      confirmation: true
     }
-    // let userId = data.id;
-    // let userStatus = data.status.toString();
-    // console.log(userId, userStatus);
-    this.userService.updateUserStatus(data.id, data.status).subscribe(
+    const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig);
+    const sub = dialogRef.componentInstance.onEmitStatusChange.subscribe((response) => {
+      this.ngxService.start();
+      this.deleteUser(values.id);
+      dialogRef.close();
+    })
+  }
+
+  //Implement Delete user
+  deleteUser(id: any){
+    this.userService.deleteUser(id).subscribe(
       (response: any) => {
         this.ngxService.stop();
-        this.responseMessage = response?.Message;
-        this.snackbar.success("User status updated successfully.", "X");
-      }, (error: any) => {
+        this.getAllUsers();
+        this.snackbar.success("User deleted successfully.", "X");
+      }, 
+      (error: any) => {
         this.ngxService.stop();
         console.log(error);
         if (error.error?.Message) {
@@ -127,7 +134,6 @@ export class UsersComponent implements OnInit {
       }
     )
   }
-
 
   //apply filter here
   applyfilter(event: Event) {

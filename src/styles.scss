@@ -1,25 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
-
-@use "@angular/material" as mat;
-
-// html, body { height: 100%; }
-// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@use '@angular/material' as mat;
+@use '../theme-colors' as theme;
 
 html {
-  @include mat.theme(
-    (
-      color: (
-        primary: mat.$green-palette,
-        tertiary: mat.$orange-palette,
-      ),
-      typography: Roboto,
-      density: -5,
-    )
-  );
-}
-body {
-  margin: 0;
-  padding: 0;
+  color-scheme: light;
+  @include mat.theme((
+    color: theme.$primary-palette,
+    typography: Roboto,
+    density: 0
+  ));
 }
 
 .mat-mdc-snack-bar-container.snackbar-success {

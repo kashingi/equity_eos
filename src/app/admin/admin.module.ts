@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { UsersComponent } from './users/users.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { TasksComponent } from './dashboard/tasks/tasks.component';
+import { TasksComponent } from './tasks/tasks.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
@@ -17,6 +17,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { ResourceComponent } from './resource/resource.component';
 
 
 
@@ -25,7 +26,9 @@ import { MatSelectModule } from '@angular/material/select';
     UsersComponent,
     DashboardComponent,
     TasksComponent,
-    UserFormComponent
+    UserFormComponent,
+    ResourceComponent,
+    
   ],
   imports: [
     CommonModule,
